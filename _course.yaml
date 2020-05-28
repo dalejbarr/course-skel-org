@@ -1,6 +1,0 @@
-coursename: "Dale's course"
-server: localhost
-# location of your server
-webroot: /var/www/html/course
-htmldir: html
-textdir: book
