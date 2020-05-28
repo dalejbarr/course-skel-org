@@ -25,6 +25,7 @@ $(TARGS) : $(SRCS)
 newslides :
 	mkdir $(LNAME)
 	cp -rv template/* $(LNAME)/
+	mv $(LNAME)/template_index.org $(LNAME)/index.org
 
 .PHONY : clean
 clean : cleanhtml
