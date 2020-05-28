@@ -1,0 +1,9 @@
+#+TITLE: Course Skeleton
+#+AUTHOR: Dale Barr
+#+OPTIONS: toc:nil
+
+* course-skeleton
+
+To get started:
+
+: git clone --recurse-submodules https://github.com/dalejbarr/course-skeleton
