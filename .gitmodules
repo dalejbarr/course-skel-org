@@ -1,0 +1,6 @@
+[submodule "public/book"]
+	path = public/book
+	url = https://github.com/dalejbarr/book-template
+[submodule "public/slides/reveal.js"]
+	path = public/slides/reveal.js
+	url = https://github.com/hakimel/reveal.js.git
