@@ -2,7 +2,7 @@
 #+AUTHOR: Instructor name
 #+options: html-link-use-abs-url:nil html-postamble:auto
 #+options: html-preamble:t html-scripts:t html-style:t
-#+options: html5-fancy:nil tex:t
+#+options: html5-fancy:nil tex:t ^:nil num:nil toc:nil
 #+html_doctype: xhtml-strict
 #+html_container: div
 #+description:
@@ -30,7 +30,7 @@
   merged[["name"]] <- ifelse(is.na(merged[["name"]]),
 			      merged[["dir"]], merged[["name"]])
   merged[["No."]] <- seq_len(nrow(merged))
-  merged[["Lecture"]] <- paste0("[[slides/", merged[["dir"]], "][",
+  merged[["Lecture"]] <- paste0("[[file:slides/", merged[["dir"]], "][",
 				merged[["name"]], "]]")
                               
   merged[c("No.", "Lecture")]                              
@@ -39,22 +39,9 @@
 #+RESULTS:
 | No. | Lecture      |
 |-----+--------------|
-|   1 | [[slides/01_intro][Introduction]] |
+|   1 | [[file:slides/01_intro][Introduction]] |
+|   2 | [[file:slides/02_GLM][02_GLM]]       |
 
-#+begin_src R :exports results :results output org
-  txtname <- "Statistical Models"
+* Textbook
 
-  if (dir.exists("book")) {
-    cat("* Textbook", "\n\n", sep = "")
-    cat("[[book][", txtname, "]]", "\n", sep = "")
-  } else {
-  ""
-  }
-#+end_src
-
-#+RESULTS:
-#+begin_src org
-  ,* Textbook
-
-  [[book][Statistical Models]]
-#+end_src
+[[file:book][Statistical Models]]
