@@ -1,35 +1,44 @@
 include ../../.make_config
 emacscmd := emacs --batch -l ../../src/org-export-extra-setup.el -l org -l org-re-reveal
 
-SRCS := $(wildcard */index.org)
-TARGS := $(patsubst %.org, %.html, $(SRCS))
-LNAME=XX_newlecture
+DEST := ../../$(htmldir)/slides
+LNAME := XX_newslides
 
-all : localhtml
+# find the slide directories
+# this is very hacky but it seems to work
+# [[ TODO: test case when there are no slide directories available ]]
+SDIRS0 := $(shell find . -maxdepth 2 -mindepth 2 -type f -regextype grep \
+	-not -regex "^\./template/.*" \
+	-iname index.org \
+	| sed 's|\./||' | sed 's|/index.org||')
 
-localhtml : $(TARGS) ../../.make_config
-	rsync -av --delete \
-		--exclude=index.org \
-		--exclude=template \
-		--exclude=*~ \
-		--exclude=Makefile \
-		--exclude=.git* \
-		* ../../$(htmldir)/slides
+## add trailing slash
+SDIRS1 := $(shell echo "$(SDIRS0)" | sed 's/[[:blank:]]/\/ /g')
 
-$(TARGS) : $(SRCS)
-	@echo "--- MAKING $@..."
+## add final trailing slash
+SDIRS := $(SDIRS1)/
+
+OSRCS := $(shell find $(SDIRS) -type f -iname index.org \
+	| sed 's|\./||')
+
+OTARGS := $(patsubst %.org, %.html, $(OSRCS))
+
+default : $(OTARGS) rsync
+
+%.html : %.org
+	@echo "--- compiling $<..."
 	$(emacscmd) $< --eval '(org-re-reveal-export-to-html)'
 	@echo "--- DONE."
 	@echo ""
 
+rsync :
+	rsync -av $(SDIRS) $(DEST)
+
 newslides :
 	mkdir $(LNAME)
 	cp -rv template/* $(LNAME)/
-	mv $(LNAME)/template_index.org $(LNAME)/index.org
 
-.PHONY : clean
-clean : cleanhtml
-	rm -f */index.html
-
-cleanhtml :
-	find ../../$(htmldir)/slides -regextype grep -not -regex "^../../$(htmldir)/slides/reveal.js.*" -not -path ../../$(htmldir)/slides -delete
+clean :
+	find $(DEST) -regextype grep \
+		-not -regex "^../../$(htmldir)/slides/reveal.js.*" \
+		-not -path $(DEST) -delete

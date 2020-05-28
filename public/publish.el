@@ -5,7 +5,7 @@
 (setq org-publish-project-alist
       `(
 	("org-notes"
-	 :exclude "^./slides/.*\|^./book/.*"
+	 :exclude "slides/.*\\|book/.*"
 	 :base-directory "./"
 	 :base-extension "org"
 	 :publishing-directory "../html/"
@@ -17,7 +17,7 @@
 	 ;:html-postamble ,my-postamble
 	 )
 	("org-static"
-	 :exclude "^./slides/.*\|^./book/.*"
+	 :exclude "slides/.*\\|book/.*"
 	 :base-directory "./"
 	 :base-extension "css\\|png\\|jpg\\|gif\\|pdf\\|csv\\|rds\\|zip\\|R\\|Rmd\\|xls\\|xlsx\\|html\\|sav\\|mp4"
 	 :publishing-directory "../html/"
