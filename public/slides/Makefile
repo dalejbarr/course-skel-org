@@ -1,17 +1,20 @@
+include ../../.make_config
 emacscmd := emacs --batch -l ../../src/org-export-extra-setup.el -l org -l org-re-reveal
+
 SRCS := $(wildcard */index.org)
 TARGS := $(patsubst %.org, %.html, $(SRCS))
 LNAME=XX_newlecture
 
 all : localhtml
 
-localhtml : $(TARGS) ../../.Makefile.config
+localhtml : $(TARGS) ../../.make_config
 	rsync -av --delete \
+		--exclude=index.org \
 		--exclude=template \
 		--exclude=*~ \
 		--exclude=Makefile \
 		--exclude=.git* \
-		* ../../html/slides
+		* ../../$(htmldir)/slides
 
 $(TARGS) : $(SRCS)
 	@echo "--- MAKING $@..."
@@ -24,6 +27,8 @@ newslides :
 	cp -rv template/* $(LNAME)/
 
 .PHONY : clean
-clean :
+clean : cleanhtml
 	rm -f */index.html
-	rm -rf ../../html/slides
+
+cleanhtml :
+	find ../../$(htmldir)/slides -regextype grep -not -regex "^../../$(htmldir)/slides/reveal.js.*" -not -path ../../$(htmldir)/slides -delete

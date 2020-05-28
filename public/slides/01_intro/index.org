@@ -10,9 +10,11 @@
 #+options: reveal_slide_number:"c"
 #+options: reveal_subtree_with_title_slide:nil reveal_toc_footer:nil
 #+options: reveal_width:nil
-#+reveal_root: file:../reveal.js
+#+reveal_root: ../reveal.js
 #+reveal_trans: convex
 
 #+TITLE: My presentation
 
 * this is a slide
+
+blah

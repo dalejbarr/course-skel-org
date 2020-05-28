@@ -1,13 +1,13 @@
+# see .make_config file for course configuration
+include .make_config
+
 emacscmd := emacs --batch -l src/org-export-extra-setup.el 
 
 default : deploy
 
-.Makefile.config : _course.yaml
-	Rscript src/make_config.R
-
 .PHONY : book deploy slides web
 
-deploy : slides | $(htmldir)
+deploy : book slides | $(htmldir)
 	rsync -av $(htmldir)/ $(server):$(webroot)
 	ssh $(server) 'find $(webroot) -type d -exec chmod a+rx {} \;'
 	ssh $(server) 'find $(webroot) -type f -exec chmod a+r {} \;'
@@ -28,10 +28,7 @@ $(htmldir) :
 	mkdir $(htmldir)
 
 clean :
-	rm -f .Makefile.config
 	make -C public/slides clean
-	rm -rf $(htmldir)
-# make -C public/book clean
 
 cleanserver :
 	ssh $(server) 'rm -rf $(webroot)'

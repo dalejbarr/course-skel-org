@@ -1,0 +1,8 @@
+# local directory for html target files (to be copied to webroot on server)
+htmldir := html
+
+# name or IP address of web server
+server := dinky
+
+# root path on the web server where course will be hosted
+webroot := /var/www/html/course

@@ -7,3 +7,9 @@
 To get started:
 
 : git clone --recurse-submodules https://github.com/dalejbarr/course-skel-org
+
+* checking links before uploading
+
+It is a good idea to check for broken links before you upload. The container includes the `checklink` link checker.
+
+: checklink html/index.html
