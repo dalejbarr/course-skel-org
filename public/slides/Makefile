@@ -7,23 +7,17 @@ LNAME := XX_newslides
 # find the slide directories
 # this is very hacky but it seems to work
 # [[ TODO: test case when there are no slide directories available ]]
-SDIRS0 := $(shell find . -maxdepth 2 -mindepth 2 -type f -regextype grep \
+SDIRS := $(shell find . -maxdepth 2 -mindepth 2 -type f -regextype grep \
 	-not -regex "^\./template/.*" \
 	-iname index.org \
 	| sed 's|\./||' | sed 's|/index.org||')
-
-## add trailing slash
-SDIRS1 := $(shell echo "$(SDIRS0)" | sed 's/[[:blank:]]/\/ /g')
-
-## add final trailing slash
-SDIRS := $(SDIRS1)/
 
 OSRCS := $(shell find $(SDIRS) -type f -iname index.org \
 	| sed 's|\./||')
 
 OTARGS := $(patsubst %.org, %.html, $(OSRCS))
 
-default : $(OTARGS) rsync
+default : $(OTARGS) setup.org rsync
 
 %.html : %.org
 	@echo "--- compiling $<..."
@@ -38,7 +32,13 @@ newslides :
 	mkdir $(LNAME)
 	cp -rv template/* $(LNAME)/
 
+print :
+	@echo $(OTARGS)
+
 clean :
 	find $(DEST) -regextype grep \
 		-not -regex "^../../$(htmldir)/slides/reveal.js.*" \
 		-not -path $(DEST) -delete
+
+cleanlocal :
+	rm -f $(OTARGS)
